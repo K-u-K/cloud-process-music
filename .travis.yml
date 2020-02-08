@@ -7,8 +7,8 @@ services:
 script:
   - GIT_SHA="$(git rev-parse --short HEAD)"
   
-  - docker build -f Dockerfile -t $AK_REG_USER/frontend:latest  -t $AK_REG_USER/frontend:$GIT_SHA ./frontend
-  - docker build -f Dockerfile -t $REGISTRY_USER/backend:latest -t $REGISTRY_USER/backend:$GIT_SHA ./backend
+  - docker build -f ./frontend/Dockerfile -t $AK_REG_USER/frontend:latest  -t $AK_REG_USER/frontend:$GIT_SHA ./frontend
+  - docker build -f ./backend/Dockerfile -t $REGISTRY_USER/backend:latest -t $REGISTRY_USER/backend:$GIT_SHA ./backend
   
   - echo "$AK_REG_PW" | docker login --username $AK_REG_USER --password-stdin
   - docker push $AK_REG_USER/frontend:latest 
