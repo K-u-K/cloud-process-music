@@ -34,15 +34,10 @@ def createZip(processPath):
 
 @app.route('/')
 def index():
+    Path(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'])).mkdir(exist_ok=True)
+    Path(os.path.join(os.getcwd(), app.config['PROCESS_FOLDER'])).mkdir(exist_ok=True)
     name = request.args.get("name", "World")
-    return '''<!doctype html>
-        <title>Upload File</title>
-        <h1>Upload File</h1>
-        <form action="/upload" method=post enctype=multipart/form-data>
-            <input type=file name=file>
-            <input type=submit value=Upload>
-        </form>
-    '''
+    return f'<!doctype html><title>Upload File</title><h1>Upload File</h1><form action="/upload" method=post enctype=multipart/form-data><input type=file name=file><input type=submit value=Upload></form>'
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -61,8 +56,9 @@ def upload_file():
             flash('No selected file')
             return Response('{"error": "Expected name for file in POST data."}', status=400, mimetype='application/json')
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename).split('.')[0]
+            filename = secure_filename(file.filename)
             uploadPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            filename = filename.split('.')[0]
             processPath = os.path.join(app.config['PROCESS_FOLDER'], filename)
             if redis.get(filename) is None:
                 file.save(uploadPath)

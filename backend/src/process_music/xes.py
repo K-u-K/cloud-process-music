@@ -8,7 +8,7 @@ import os
 import sys
 
 def export_to_xes(filename):
-    output = os.path.splitext(filename)[0].lower()
+    output = os.path.splitext(filename)[0]
 
     df = csv_import_adapter.import_dataframe_from_path(filename, sep=";")
     df = df.rename(columns={
@@ -22,4 +22,5 @@ def export_to_xes(filename):
     # create internal XES log from pandas dataframe
     log = conversion_factory.apply(df)
     # save XES log
+
     xes_exporter.export_log(log, f"{output}.xes")

@@ -5,6 +5,9 @@ services:
             context: ./backend
             dockerfile: Dockerfile
         image: kazefreedom/backend:latest
+        volumes:
+            - ./backend/process:/backend/process
+            - ./backend/uploads:/backend/uploads
         ports:
             - "5000:5000"
     redis:

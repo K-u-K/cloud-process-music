@@ -252,15 +252,15 @@ def main(args):
                     result["is_chord"],
                     result["time"]
                 ))
-        
-        # export to XES
-        xes.export_to_xes(output)
 
         # generate and store footprint matrix
         footprint_matrix = footprint.calculate_footprint_matrix(output)
         footprint_path   = f"{output_dir}/track_{i}_footprint_matrix.txt"
         with open(footprint_path, "w") as fh:
             fh.write(footprint_matrix.to_string())
+        
+        # export to XES
+        xes.export_to_xes(output)
 
         #if __debug__:
         #    print(footprint_matrix)
