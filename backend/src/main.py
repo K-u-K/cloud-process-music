@@ -27,17 +27,19 @@ def allowed_file(filename):
 def createZip(processPath):
     zipPath = os.path.join(processPath, "data.zip")
     with ZipFile(zipPath, 'w') as zipObj:
-        zipObj.write(os.path.join(processPath, "track_0.csv"))
-        zipObj.write(os.path.join(processPath, "track_0.xes"))
-        zipObj.write(os.path.join(processPath, "track_0_footprint_matrix.txt"))
+        for file in os.listdir(processPath):
+            if file == "data.zip":
+                continue
+            
+            zipObj.write(os.path.join(processPath, file))
     return True
 
-@app.route('/')
-def index():
-    Path(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'])).mkdir(exist_ok=True)
-    Path(os.path.join(os.getcwd(), app.config['PROCESS_FOLDER'])).mkdir(exist_ok=True)
-    name = request.args.get("name", "World")
-    return f'<!doctype html><title>Upload File</title><h1>Upload File</h1><form action="/upload" method=post enctype=multipart/form-data><input type=file name=file><input type=submit value=Upload></form>'
+# @app.route('/')
+# def index():
+#     Path(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'])).mkdir(exist_ok=True)
+#     Path(os.path.join(os.getcwd(), app.config['PROCESS_FOLDER'])).mkdir(exist_ok=True)
+#     name = request.args.get("name", "World")
+#     return f'<!doctype html><title>Upload File</title><h1>Upload File</h1><form action="/upload" method=post enctype=multipart/form-data><input type=file name=file><input type=submit value=Upload></form>'
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -59,7 +61,7 @@ def upload_file():
             filename = secure_filename(file.filename)
             uploadPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             filename = filename.split('.')[0]
-            processPath = os.path.join(app.config['PROCESS_FOLDER'], filename)
+            processPath = os.path.join(app.config['PROCESS_FOLDER'], filename).lower()
             if redis.get(filename) is None:
                 file.save(uploadPath)
                 if not os.path.isdir(processPath):
@@ -68,7 +70,7 @@ def upload_file():
                 args["MIDI_FILE"] = uploadPath
                 args["--measures"] = 1
                 args["--output_dir"] = processPath
-                args["--tracks"] = [0]
+                args["--tracks"] = [-1]
                 pMain(args)
                 redis.save({f"{filename}": f"{filename}"})
                 createZip(processPath)

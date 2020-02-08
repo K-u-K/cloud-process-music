@@ -1,6 +1,14 @@
 version: '3'
 services:
+    frontend:
+        container_name: clc-frontend
+        build:
+            context: ./frontend
+        ports: 
+            - "80:80"
+
     backend:
+        container_name: clc-backend
         build: 
             context: ./backend
             dockerfile: Dockerfile
@@ -10,5 +18,7 @@ services:
             - ./backend/uploads:/backend/uploads
         ports:
             - "5000:5000"
+
     redis:
+        container_name: clc-db
         image: "redis:alpine"
