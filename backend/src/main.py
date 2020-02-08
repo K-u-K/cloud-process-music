@@ -81,4 +81,4 @@ def upload_file():
     return Response('{"error": "Only POST requests are allowed."}', status=405, mimetype='application/json')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0')

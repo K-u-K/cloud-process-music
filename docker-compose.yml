@@ -2,11 +2,19 @@ version: '3'
 services:
     frontend:
         container_name: clc-frontend
-        image: alenkocaj/frontend:latest
+        image: kazefreedom/frontend:latest
         build:
             context: ./frontend
         ports: 
-            - "80:80"
+            - "8080:8080"
+
+    redis:
+        container_name: clc-db
+        image: kazefreedom/db:latest
+        build: 
+            context: ./db
+        ports:
+            - "6379:6379"
 
     backend:
         container_name: clc-backend
@@ -18,7 +26,6 @@ services:
             - ./backend/uploads:/backend/uploads
         ports:
             - "5000:5000"
-
-    redis:
-        container_name: clc-db
-        image: "redis:alpine"
+        depends_on:
+            - frontend
+            - redis
