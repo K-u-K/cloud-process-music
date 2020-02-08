@@ -2,6 +2,7 @@ version: '3'
 services:
     frontend:
         container_name: clc-frontend
+        image: alenkocaj/frontend:latest
         build:
             context: ./frontend
         ports: 
@@ -9,10 +10,9 @@ services:
 
     backend:
         container_name: clc-backend
+        image: kazefreedom/backend:latest
         build: 
             context: ./backend
-            dockerfile: Dockerfile
-        image: kazefreedom/backend:latest
         volumes:
             - ./backend/process:/backend/process
             - ./backend/uploads:/backend/uploads

@@ -3,22 +3,17 @@ sudo: required
 
 services:
   - docker
-    
-env: 
-  - DOCKER_COMPOSE_VERSION: 1.25.2
-
-before_install:
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 script:
-  - docker version
-  - docker-compose version
-  - docker-compose build
-  - docker-compose up -d --build
-  - echo "$REGISTRY_PASSWORD" | docker login --username $REGISTRY_USER --password-stdin
-  - docker-compose push
+  - GIT_SHA="$(git rev-parse --short HEAD)"
   
-after_script:
-  - docker-compose down
+  - docker build -f Dockerfile -t $AK_REG_USER/frontend:latest  -t $AK_REG_USER/frontend:$GIT_SHA ./frontend
+  - docker build -f Dockerfile -t $REGISTRY_USER/backend:latest -t $REGISTRY_USER/backend:$GIT_SHA ./backend
+  
+  - echo "$AK_REG_PW" | docker login --username $AK_REG_USER --password-stdin
+  - docker push $AK_REG_USER/frontend:latest 
+  - docker push $AK_REG_USER/frontend:$GIT_SHA
+
+  - echo "$REGISTRY_PASSWORD" | docker login --username $REGISTRY_USER --password-stdin
+  - docker push $REGISTRY_USER/backend:latest 
+  - docker push $REGISTRY_USER/backend:$GIT_SHA
