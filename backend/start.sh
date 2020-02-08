@@ -1,2 +1,2 @@
-python backend/setup.py install
-python backend/src/main.py
+python setup.py install
+python src/main.py

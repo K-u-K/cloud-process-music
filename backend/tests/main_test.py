@@ -24,7 +24,7 @@ class MyTest(unittest.TestCase):
     
     def test_flask_handles_uploads_mid_file(self):
         my_file = FileStorage(
-            stream=open(os.path.join(self.cwd, 'src/tests/Melody_guitar.mid'), 'rb'),
+            stream=open(os.path.join(self.cwd, 'tests/Melody_guitar.mid'), 'rb'),
             filename="Melody_guitar.mid",
             name="Melody_guitar.mid"
         )
@@ -35,18 +35,18 @@ class MyTest(unittest.TestCase):
 
     def test_flask_handles_uploads_same_mid_file(self):
         my_file = FileStorage(
-            stream=open(os.path.join(self.cwd, 'src/tests/Melody_guitar.mid'), 'rb'),
+            stream=open(os.path.join(self.cwd, 'tests/Melody_guitar.mid'), 'rb'),
             filename="Melody_guitar.mid",
             name="Melody_guitar.mid"
         )
 
         data = { "file": my_file }
         response = self.client.post('/upload', content_type='multipart/form-data', follow_redirects=True, data=data)
-        self.assertEqual(response.status_code, 203)
+        self.assertEqual(response.status_code, 200)
 
     def test_flask_handles_uploads_other_file(self):
         my_file = FileStorage(
-            stream=open(os.path.join(self.cwd, 'src/tests/Melody_guitar.mid'), 'rb'),
+            stream=open(os.path.join(self.cwd, 'tests/Melody_guitar.mid'), 'rb'),
             filename="Melody_guitar.txt",
             name="Melody_guitar.txt"
         )

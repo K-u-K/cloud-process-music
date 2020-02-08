@@ -1,6 +1,6 @@
 import redis
 
-class RedisHandler():
+class redis_handler():
     
     def __init__(self, app):
         self.redis = redis.StrictRedis(

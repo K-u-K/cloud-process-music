@@ -1,1 +1,1 @@
-python backend/src/tests/main_test.py
+python src/tests/main_test.py
