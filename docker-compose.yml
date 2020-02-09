@@ -8,9 +8,17 @@ services:
         ports: 
             - "80:80"
 
+    redis:
+        container_name: clc-db
+        image: alenkocaj/db:latest
+        build: 
+            context: ./db
+        ports:
+            - "6379:6379"
+
     backend:
         container_name: clc-backend
-        image: kazefreedom/backend:latest
+        image: alenkocaj/backend:latest
         build: 
             context: ./backend
         volumes:
@@ -18,7 +26,6 @@ services:
             - ./backend/uploads:/backend/uploads
         ports:
             - "5000:5000"
-
-    redis:
-        container_name: clc-db
-        image: "redis:alpine"
+        depends_on:
+            - frontend
+            - redis

@@ -15,5 +15,6 @@ FROM nginx:1.16.0-alpine as run
 LABEL maintainer "Alen Kocaj <alen.kocaj@posteo.at>"
 
 COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf 
 
 CMD ["nginx", "-g", "daemon off;"]
