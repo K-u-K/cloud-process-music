@@ -43,7 +43,7 @@ function App() {
         </div>
         <div className="pt-5">
           <h3 className="display">Upload the MIDI file</h3>
-          <form action="http://backend/upload" method="post" enctype="multipart/form-data">
+          <form action="https://alen-kocaj.tk/clc-backend/upload" method="post" enctype="multipart/form-data">
             <div>
               <span>
                 <input type="file" name="file"/>

@@ -1,8 +1,31 @@
 os: linux
 sudo: required
 
+python:
+  - "3.6" 
+  - "3.7"
+  - "3.8"
+
+cache:
+  directories:
+  # We cache the SDK so we don't have to download it again on subsequent builds.
+  - $HOME/aws-sdk
+
+install:
+  - mkdir -p $HOME/aws-sdk
+  - pip install awscli --upgrade --user
+  - bash install.sh
+
 services:
   - docker
+
+before_script:
+  - export AWS_ACCESS_KEY_ID=$AWS_KEY
+  - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET
+  - export AWS_DEFAULT_REGION=$AWS_REGION
+  - export AWS_DEFAULT_OUTPUT=$AWS_OUTPUT
+  - export PATH=$PATH:$HOME/aws-sdk
+  - aws configure
 
 script:
   - GIT_SHA="$(git rev-parse --short HEAD)"
@@ -20,3 +43,8 @@ script:
   
   - docker push $AK_REG_USER/db:latest 
   - docker push $AK_REG_USER/db:$GIT_SHA
+
+  - export PATH=$PATH:$HOME/aws-sdk
+  - kubectl apply -f kube/frontend-k8s.yaml --force
+  - kubectl apply -f kube/backend-k8s.yaml --force
+  - kubectl apply -f kube/redis-k8s.yaml --force
