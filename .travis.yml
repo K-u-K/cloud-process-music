@@ -20,10 +20,15 @@ services:
   - docker
 
 before_script:
-  - export AWS_ACCESS_KEY_ID=$AWS_KEY
-  - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET
-  - export AWS_DEFAULT_REGION=$AWS_REGION
-  - export AWS_DEFAULT_OUTPUT=$AWS_OUTPUT
+  - mkdir "$HOME/.aws"
+  - echo "[default]" > "$HOME/.aws/credentials"
+  - echo "aws_access_key_id=${AWS_KEY}" >> "$HOME/.aws/credentials"
+  - echo "aws_secret_access_key=${AWS_SECRET}" >> "$HOME/.aws/credentials"
+  
+  - echo "[default]" > "$HOME/.aws/config"
+  - echo "region=${AWS_REGION}" >> "$HOME/.aws/config"
+  - echo "output=${AWS_OUTPUT}" >> "$HOME/.aws/config"
+
   - export PATH=$PATH:$HOME/aws-sdk
   - aws configure
 
