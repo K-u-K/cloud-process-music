@@ -61,7 +61,7 @@ script:
   - kubectl apply -f kube/backend-k8s.yaml --force
   - kubectl apply -f kube/redis-k8s.yaml --force
 
-  - az login -u ${AZ_USER} -p ${AZ_PASSWORD}
+  - az login -u "${AZ_USER}" -p "${AZ_PASSWORD}"
   - az aks get-credentials --resource-group ${AZ_RESS_GROUP} --name ${AZ_CLUSTER}
   - kubectl apply -f kube/frontend-k8s.yaml --force
   - kubectl apply -f kube/backend-k8s.yaml --force
