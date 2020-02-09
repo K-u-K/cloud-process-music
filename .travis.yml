@@ -30,7 +30,7 @@ before_script:
   - echo "output=${AWS_OUTPUT}" >> "$HOME/.aws/config"
 
   - export PATH=$PATH:$HOME/aws-sdk
-  - aws configure
+  - aws eks list-clusters
 
 script:
   - GIT_SHA="$(git rev-parse --short HEAD)"
