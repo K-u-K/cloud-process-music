@@ -46,7 +46,7 @@ function App() {
           <form action="https://alen-kocaj.tk/clc-backend/upload" method="post" enctype="multipart/form-data">
             <div>
               <span>
-                <input type="file" name="file"/>
+                <input type="file" name="file" />
               </span>
               <span className="pl-3">
                 <button type="submit" className="btn btn-primary">Submit your upload</button>
