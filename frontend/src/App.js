@@ -5,7 +5,7 @@ function App() {
     <div>
       <main className="container">
         <div className="pt-5">
-          <h1 className="display">🎵 Process Music 🎶</h1>
+          <h1 className="display">🎵 LOL Music 🎶</h1>
           <p className="lead">
             Process your musical composition provided as MIDI file
           </p>

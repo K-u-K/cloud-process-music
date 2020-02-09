@@ -10,8 +10,7 @@ cache:
   directories:
   # We cache the SDK so we don't have to download it again on subsequent builds.
   - $HOME/.cache/pip
-
-#   - $HOME/aws-sdk
+  - $HOME/aws-sdk
 
 cache: pip
 
@@ -33,28 +32,29 @@ before_script:
   - echo "region=${AWS_REGION}" >> "$HOME/.aws/config"
   - echo "output=${AWS_OUTPUT}" >> "$HOME/.aws/config"
 
-  - mkdir "$HOME/.kube"
-  - cp aws.config "$HOME/.kube/config"
-
   - export PATH=$PATH:$HOME/aws-sdk
   - aws eks list-clusters
+
+  - mkdir "$HOME/.kube"
+  - cp aws.config "$HOME/.kube/config"
+  - kubectl get svc
 
 script:
   - GIT_SHA="$(git rev-parse --short HEAD)"
   
-  # - docker build -f ./frontend/Dockerfile -t $AK_REG_USER/frontend:latest  -t $AK_REG_USER/frontend:$GIT_SHA ./frontend
-  # - docker build -f ./backend/Dockerfile -t $AK_REG_USER/backend:latest -t $AK_REG_USER/backend:$GIT_SHA ./backend
-  # - docker build -f ./db/Dockerfile -t $AK_REG_USER/db:latest -t $AK_REG_USER/db:$GIT_SHA ./db
+  - docker build -f ./frontend/Dockerfile -t $AK_REG_USER/frontend:latest  -t $AK_REG_USER/frontend:$GIT_SHA ./frontend
+  - docker build -f ./backend/Dockerfile -t $AK_REG_USER/backend:latest -t $AK_REG_USER/backend:$GIT_SHA ./backend
+  - docker build -f ./db/Dockerfile -t $AK_REG_USER/db:latest -t $AK_REG_USER/db:$GIT_SHA ./db
   
-  # - echo "$AK_REG_PW" | docker login --username $AK_REG_USER --password-stdin
-  # - docker push $AK_REG_USER/frontend:latest 
-  # - docker push $AK_REG_USER/frontend:$GIT_SHA
+  - echo "$AK_REG_PW" | docker login --username $AK_REG_USER --password-stdin
+  - docker push $AK_REG_USER/frontend:latest 
+  - docker push $AK_REG_USER/frontend:$GIT_SHA
 
-  # - docker push $AK_REG_USER/backend:latest 
-  # - docker push $AK_REG_USER/backend:$GIT_SHA
+  - docker push $AK_REG_USER/backend:latest 
+  - docker push $AK_REG_USER/backend:$GIT_SHA
   
-  # - docker push $AK_REG_USER/db:latest 
-  # - docker push $AK_REG_USER/db:$GIT_SHA
+  - docker push $AK_REG_USER/db:latest 
+  - docker push $AK_REG_USER/db:$GIT_SHA
 
   - export PATH=$PATH:$HOME/aws-sdk
   - kubectl apply -f kube/frontend-k8s.yaml --force
