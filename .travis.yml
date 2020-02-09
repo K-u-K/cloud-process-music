@@ -9,14 +9,15 @@ python:
 cache:
   directories:
   # We cache the SDK so we don't have to download it again on subsequent builds.
-  - $HOME/aws-sdk
   - $HOME/.cache/pip
+
+#   - $HOME/aws-sdk
 
 cache: pip
 
 install:
   - mkdir -p $HOME/aws-sdk
-  - pip install awscli --upgrade --user --download-cache $HOME/.cache/pip
+  - pip install awscli --upgrade --user --cache-dir $HOME/.cache/pip
   - bash install.sh
 
 services:
