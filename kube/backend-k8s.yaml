@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: alenkocaj/backend
+        image: alenkocaj/backend:latest
         ports:
         - containerPort: 80
 ---
