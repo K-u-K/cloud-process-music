@@ -26,3 +26,5 @@ either an AWS EC2 or AWS EKS instance.
 Optionally, AWS Lambda is used to implemented
 only the specific code fragment which performs
 the conversion of the audio files
+
+TLDR: do not use thies program
