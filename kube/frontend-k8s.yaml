@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: alenkocaj/frontend:latest
+        image: alenkocaj/frontend
         ports:
           - containerPort: 80
 ---
