@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: alenkocaj/redis:latest
+        image: alenkocaj/redis
         ports:
         - containerPort: 6379
 ---
