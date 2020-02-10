@@ -56,6 +56,8 @@ script:
   - docker push $AK_REG_USER/db:latest 
   - docker push $AK_REG_USER/db:$GIT_SHA
 
+  - sleep 10
+
   - export PATH=$PATH:$HOME/aws-sdk
   - kubectl apply -f kube/frontend-k8s.yaml --force
   - kubectl apply -f kube/backend-k8s.yaml --force
