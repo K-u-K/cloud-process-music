@@ -60,3 +60,9 @@ script:
   - kubectl apply -f kube/frontend-k8s.yaml --force
   - kubectl apply -f kube/backend-k8s.yaml --force
   - kubectl apply -f kube/redis-k8s.yaml --force
+
+  - az login --service-principal -u ${AZ_APPID} --password ${AZ_PASSWORD} --tenant ${AZ_TENANT}
+  - az aks get-credentials --resource-group ${AZ_RES_GROUP} --name ${AZ_CLUSTER}
+  - kubectl apply -f kube/frontend-k8s.yaml --force
+  - kubectl apply -f kube/backend-k8s.yaml --force
+  - kubectl apply -f kube/redis-k8s.yaml --force
