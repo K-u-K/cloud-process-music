@@ -1,5 +1,5 @@
 flask==1.1.1
-redis==3.4.0
+redis==4.4.4
 pm4py==1.2.4
 mido==1.2.9
 pandas==0.25.2
